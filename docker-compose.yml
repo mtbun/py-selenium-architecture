@@ -28,7 +28,7 @@ services:
     links:
       - hub
  
-  edge:
+  firefox:
     image: selenium/node-firefox-debug
     container_name: web-firefox
     depends_on:
