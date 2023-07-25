@@ -1,12 +1,14 @@
-# development environment
+# Configurations for Different Environments
+
+# Development environment URL
 DEV_BASE_URL = 'https://dev.wikipedia.org/'
 
-# test environment
+# Test environment URL
 TEST_BASE_URL = 'https://test.wikipedia.org/'
 
-# production environment
+# Production environment URL
 PROD_BASE_URL = 'https://www.wikipedia.org/'
 
-# envirnment variable
-# dev - test - prod
+# Environment Variable
+# Possible values: 'dev', 'test', 'prod'
 ENVIRONMENT = 'prod'  

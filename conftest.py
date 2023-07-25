@@ -8,6 +8,17 @@ RETRY_COUNT = 2
 RETRY_DELAY = 1
 
 def pytest_addoption(parser):
+    """
+    This function adds command line options for pytest.
+
+    Parameters:
+        parser (argparse.ArgumentParser): The pytest argument parser.
+
+    Command Line Options:
+        --browser (str, optional): Specify the browser to run the tests (chrome, firefox, edge). Defaults to chrome.
+        --headless (bool, optional): Run the tests in headless mode. Defaults to False.
+        --local (bool, optional): Run the tests locally without using the remote driver. Defaults to False.
+    """
     parser.addoption("--browser", action="store", default="chrome",
                      help="Specify the browser to run the tests (chrome, firefox, edge)")
     parser.addoption("--headless", action="store_true", default=False,
@@ -17,6 +28,17 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="function")
 def driver(request):
+    """
+    This function creates and returns a WebDriver instance based on the specified options.
+
+    Parameters:
+        browser (str): The browser to be used for the WebDriver (chrome, firefox, edge).
+        headless (bool): Whether to run the browser in headless mode or not.
+        local (bool, optional): Whether to run the tests locally or using the remote driver. Defaults to False.
+
+    Returns:
+        selenium.webdriver.WebDriver: A WebDriver instance for the specified browser and options.
+    """
     browser = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
     local = request.config.getoption("--local")
