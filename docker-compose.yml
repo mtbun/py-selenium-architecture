@@ -1,46 +1,52 @@
-version: "3.9"
+# Author: Bunyamin Mete(metebunyaminn@gmail.com)
+# To execute this docker-compose yml file use `docker-compose up`
+# Add the `-d` flag at the end for detached execution
+# To stop the execution, hit Ctrl+C, and then `docker-compose down`
+version: "3"
 services:
- 
-  hub:
-    image: selenium/hub
-    ports:
-      - "4444:4444"
- 
-    environment:
-      GRID_MAX_SESSION: 16
-      GRID_BROWSER_TIMEOUT: 3000
-      GRID_TIMEOUT: 3000
- 
   chrome:
-    image: selenium/node-chrome-debug
-    container_name: web-chrome
+    image: selenium/node-chrome
     depends_on:
-      - hub
+      - selenium-hub
     environment:
-      HUB_PORT_4444_TCP_ADDR: hub
-      HUB_PORT_4444_TCP_PORT: 4444
-      NODE_MAX_SESSION: 4
-      NODE_MAX_INSTANCES: 4
-    volumes:
-      - /dev/shm:/dev/shm
-    ports:
-      - "5900:5900"
-    links:
-      - hub
- 
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    networks:
+      - grid_network
+
+  edge:
+    image: selenium/node-edge
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    networks:
+      - grid_network
+
   firefox:
-    image: selenium/node-firefox-debug
-    container_name: web-firefox
+    image: selenium/node-firefox
     depends_on:
-      - hub
+      - selenium-hub
     environment:
-      HUB_PORT_4444_TCP_ADDR: hub
-      HUB_PORT_4444_TCP_PORT: 4444
-      NODE_MAX_SESSION: 2
-      NODE_MAX_INSTANCES: 2
-    volumes:
-      - /dev/shm:/dev/shm
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    networks:
+      - grid_network
+
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
     ports:
-      - "5901:5900"
-    links:
-      - hub
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    networks:
+      - grid_network
+
+networks:
+  grid_network:
+    driver: bridge
