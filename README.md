@@ -3,7 +3,7 @@ This repository demonstrates how to perform automated web testing using Selenium
 
 ## Getting Started
 
-1. **Install Python:** Ensure you have Python installed on your local machine.
+1. **Install Python:** Ensure you have Python installed on your local machine.(3.6 or later)
 
 2. **Setup Virtual Environment:** Create and activate a virtual environment using the following commands:
 
@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```
 4. Execute Tests Locally: To run the test scenarios locally, use the following command:
 ```bash
-python -m pytest
+python -m pytest --local
 ```
 ## Running Tests with Docker
 **Install Docker:** Ensure you have Docker installed on your machine.
@@ -35,11 +35,11 @@ docker-compose up
 ## Customizing Test Execution
 To select a specific browser for test execution, use the --browser flag with pytest. For example:
 ```bash
-pytest --browser firefox
+python -m pytest --browser firefox --local
 ```
 To run tests in headless mode, add the --headless flag:
 ```bash
-pytest --headless
+python -m pytest --headless --local
 ```
 
 To retry failed tests, the RETRY_COUNT and RETRY_DELAY variables in the conftest.py file can be adjusted.
@@ -49,9 +49,6 @@ The test scenarios are organized using the Page Object Model (POM) design patter
 
 ### Contributing
 Contributions are welcome! If you find any issues or have improvements to suggest, please create a pull request.
-
-### License
-This project is licensed under the MIT License. See the LICENSE file for details.
 
 ### Acknowledgments
 Special thanks to the Selenium and Docker communities for providing the tools that make this project possible.
